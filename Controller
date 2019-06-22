@@ -1,0 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Configuration;
+
+    public class BIOGController : ApiController
+    {
+        private DatabaseEntities _database = new DatabaseEntities();
+
+        public IEnumerable<BIOG_VIEW> GetBIOG(string id)
+        {
+            var  isLogin = User.Identity.IsAuthenticated;
+            var emailLogin = User.Identity.Name;
+            if (isLogin)
+            {
+                return this._database.BIOG_VIEW.Where(m => m.BIOG_CID.Equals(id));
+            }
+            else
+            {
+                return this._database.BIOG_VIEW.Where(m => m.BIOG_CID.Equals("0"));
+            }
+        }
+      
